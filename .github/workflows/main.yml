@@ -14,5 +14,5 @@ jobs:
       steps: 
       - uses: actions/checkout@v4
       - name: Build the Docker Image
-        run: docker build - --file Dockerfile --tag imersao-devops-alura:$(date +%s)
+        run: docker build . --file Dockerfile --tag imersao-devops-alura:$(date +%s)
   
