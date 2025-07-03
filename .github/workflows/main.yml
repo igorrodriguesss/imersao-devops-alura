@@ -35,4 +35,22 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build . --file Dockerfile --tag
+          docker build . --file Dockerfile --tag ${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.ARTIFACT_REPOSITORY }}/imersao-devops-alura:latest
+
+      - name: Push Docker image to Artifact Registry
+        run: |
+          docker push ${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.ARTIFACT_REPOSITORY }}/imersao-devops-alura:latest
+
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy imersao-devops-alura \
+            --image ${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.ARTIFACT_REPOSITORY }}/imersao-devops-alura:latest \
+            --region ${{ secrets.GCP_REGION }} \
+            --platform managed \
+            --allow-unauthenticated \
+            --port 8000
+
+      - name: Show gcloud authentication status
+        run: |
+          gcloud auth list
+          gcloud config list
