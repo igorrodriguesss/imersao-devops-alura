@@ -47,4 +47,4 @@ EOF
       - name: Deploy to Cloud Run
         run: |
           gcloud run deploy imersao-devops-alura \
-            --image ${
+            --image ${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets_
