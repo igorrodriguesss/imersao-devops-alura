@@ -22,7 +22,7 @@ jobs:
 
       - name: Authenticate service account explicitly
         run: |
-          echo "${{ secrets.GCP_SERVICE_KEY }}" > key.json
+          printf '%s' "${{ secrets.GCP_SERVICE_KEY }}" > key.json
           gcloud auth activate-service-account --key-file=key.json
 
       - name: Build Docker image
@@ -48,5 +48,4 @@ jobs:
             --image ${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.ARTIFACT_REPOSITORY }}/imersao-devops-alura:latest \
             --region ${{ secrets.GCP_REGION }} \
             --platform managed \
-            --allow-unauthenticated \
-            --port 8000
+            --allow-unaut
